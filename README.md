@@ -1,5 +1,7 @@
 # image-processing-app
 
+Electron
+
 ## Project setup
 ```
 yarn install
