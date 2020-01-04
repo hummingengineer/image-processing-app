@@ -4,7 +4,7 @@
     <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img alt="Vuetify Logo" class="shrink mr-2" contain src="https://opencv.org/wp-content/uploads/2019/02/opencv-logo-1.png" transition="scale-transition" width="40" />
-        <v-img alt="Vuetify Name" class="shrink mt-1 hidden-sm-and-down" contain min-width="100" src="./assets/Logo.png" width="250" />
+        <v-img alt="Vuetify Name" class="shrink mt-1 hidden-sm-and-down" contain min-width="100" src="./assets/title.png" width="250" />
       </div>
 
       <v-spacer />
