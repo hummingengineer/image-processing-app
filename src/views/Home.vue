@@ -7,6 +7,14 @@
       </v-col>
     </v-row>
 
+    <v-row class="text-center">
+      <v-col>
+        <v-btn icon text @click="convertImg" color="#E91E63" large :disabled="!originalFile ? true : false">
+          <v-icon>mdi-reload</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+
     <v-row>
       <v-col>
         <v-subheader>기존 이미지</v-subheader>
@@ -21,8 +29,11 @@
 </template>
 
 <script>
+const { ipcRenderer } = require('electron')
+
 export default {
   name: 'home',
+
   data: function () {
     return {
       originalFile: null,
@@ -30,6 +41,7 @@ export default {
       previewImg: null
     }
   },
+
   watch: {
     originalFile: function (val) {
       if(!val) return;
@@ -39,7 +51,17 @@ export default {
       }, false)
       reader.readAsDataURL(val)
     }
+  },
+
+  methods: {
+    convertImg: function () {
+      ipcRenderer.once('convert-image', (event, converted) => {
+        //
+      })
+      ipcRenderer.send('convert-image', this.originalFile.path)
+    }
   }
+
 }
 </script>
 
