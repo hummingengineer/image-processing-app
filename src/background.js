@@ -88,6 +88,11 @@ if (isDevelopment) {
   }
 }
 
+// Finally, load the open.js as before. The function `onRuntimeInitialized` contains our program.
+Module = {
+  onRuntimeInitialized
+}
+cv = require('./opencv.js')
 ipcMain.on('convert-image', (event, originalFilePath) => {
   //
 })
