@@ -88,6 +88,11 @@ if (isDevelopment) {
   }
 }
 
+const Jimp = require('jimp')
+async function onRuntimeInitialized () {
+  //
+}
+
 // Finally, load the open.js as before. The function `onRuntimeInitialized` contains our program.
 Module = {
   onRuntimeInitialized
