@@ -88,21 +88,26 @@ if (isDevelopment) {
   }
 }
 
+/* Event handler for asynchronous incoming messages */
+ipcMain.on('convert-image', (event, originalFilePath) => {
+  onRuntimeInitialized(originalFilePath)
+})
+
 // Load the open.js. The function `onRuntimeInitialized` contains our program.
 let Module = {
   onRuntimeInitialized
 }
 
-let cv = require('./opencv.js')
+const cv = require('./opencv.js')
 const Jimp = require('jimp/dist')
 
 // Dilate example
 async function onRuntimeInitialized (originalFilePath) {
-  var jimpSrc = await Jimp.read(originalFilePath)
-  var src = cv.matFromImageData(jimpSrc.bitmap)
+  const jimpSrc = await Jimp.read(originalFilePath)
+  const src = cv.matFromImageData(jimpSrc.bitmap)
   let dst = new cv.Mat()
-  let M = cv.Mat.ones(5, 5, cv.CV_8U)
-  let anchor = new cv.Point(-1, -1)
+  const M = cv.Mat.ones(5, 5, cv.CV_8U)
+  const anchor = new cv.Point(-1, -1)
   cv.dilate(src, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue())
   new Jimp({
     width: dst.cols,
@@ -114,7 +119,3 @@ async function onRuntimeInitialized (originalFilePath) {
   src.delete()
   dst.delete()
 }
-
-ipcMain.on('convert-image', (event, originalFilePath) => {
-  onRuntimeInitialized(originalFilePath)
-})
