@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow,ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import {
   createProtocol,
   // installVueDevtools
@@ -96,7 +96,7 @@ let Module = {
 let cv = require('./opencv.js')
 const Jimp = require('jimp/dist')
 
-// dilate example
+// Dilate example
 async function onRuntimeInitialized (originalFilePath) {
   var jimpSrc = await Jimp.read(originalFilePath)
   var src = cv.matFromImageData(jimpSrc.bitmap)
