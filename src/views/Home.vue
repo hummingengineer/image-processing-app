@@ -28,9 +28,9 @@
       </v-col>
     </v-row>
 
-    <v-row class="text-center">
+    <v-row v-if="convertedImg" class="text-center">
       <v-col>
-        <v-btn v-if="convertedImg" class="mt-5" light color="success"><a style="text-decoration: none;" :href="convertedImg" :download="originalFile.name">변환된 이미지 다운로드</a></v-btn>
+        <a style="text-decoration: none;" :href="convertedImg" :download="`${selectedTechnique}_${originalFile.name}`"><v-btn class="mt-5" light color="success">변환된 이미지 다운로드</v-btn></a>
       </v-col>
     </v-row>
 
