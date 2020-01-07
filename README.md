@@ -7,13 +7,15 @@ yarn install
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+yarn electron:serve
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+yarn electron:build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Reference
+* [Vue](https://github.com/vuejs/vue).
+* [Vuetify](https://github.com/vuetifyjs/vuetify).
+* [Electron-builder for Vue](https://github.com/nklayman/vue-cli-plugin-electron-builder).
