@@ -114,3 +114,21 @@ function onRuntimeInitialized (event, originalFilePath, selectedTechnique) {
     }
   }
 }
+
+async function thresholdImg (event, originalFilePath) {
+  let jimpSrc = await Jimp.read(originalFilePath)
+  let src = cv.matFromImageData(jimpSrc.bitmap)
+  let dst = new cv.Mat()
+  cv.threshold(src, dst, 177, 200, cv.THRESH_BINARY)
+  new Jimp({
+    width: dst.cols,
+    height: dst.rows,
+    data: Buffer.from(dst.data)
+  })
+  .getBase64Async(jimpSrc.getMIME())
+  .then(dataURI => {
+    event.reply('convert-image', dataURI)
+  })
+  src.delete()
+  dst.delete()
+}
