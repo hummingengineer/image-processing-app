@@ -132,3 +132,23 @@ async function thresholdImg (event, originalFilePath) {
   src.delete()
   dst.delete()
 }
+
+async function dilateImg (event, originalFilePath) {
+  let jimpSrc = await Jimp.read(originalFilePath)
+  let src = cv.matFromImageData(jimpSrc.bitmap)
+  let dst = new cv.Mat()
+  let M = cv.Mat.ones(5, 5, cv.CV_8U)
+  let anchor = new cv.Point(-1, -1)
+  cv.dilate(src, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue())
+  new Jimp({
+    width: dst.cols,
+    height: dst.rows,
+    data: Buffer.from(dst.data)
+  })
+  .getBase64Async(jimpSrc.getMIME())
+  .then(dataURI => {
+    event.reply('convert-image', dataURI)
+  })
+  src.delete()
+  dst.delete()
+}
