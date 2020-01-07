@@ -89,8 +89,8 @@ if (isDevelopment) {
 }
 
 /* Event handler for asynchronous incoming messages */
-ipcMain.on('convert-image', (event, originalFilePath) => {
-  onRuntimeInitialized(originalFilePath)
+ipcMain.on('convert-image', (event, originalFilePath, selectedTechnique) => {
+  onRuntimeInitialized(event, originalFilePath, selectedTechnique)
 })
 
 // Load the open.js. The function `onRuntimeInitialized` contains our program.
@@ -98,24 +98,19 @@ let Module = {
   onRuntimeInitialized
 }
 
-const cv = require('./opencv.js')
+let cv = require('./opencv.js')
 const Jimp = require('jimp/dist')
 
 // Dilate example
-async function onRuntimeInitialized (originalFilePath) {
-  const jimpSrc = await Jimp.read(originalFilePath)
-  const src = cv.matFromImageData(jimpSrc.bitmap)
-  let dst = new cv.Mat()
-  const M = cv.Mat.ones(5, 5, cv.CV_8U)
-  const anchor = new cv.Point(-1, -1)
-  cv.dilate(src, dst, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue())
-  new Jimp({
-    width: dst.cols,
-    height: dst.rows,
-    data: Buffer.from(dst.data)
-  })
-  .write(require('path').join(app.getPath('downloads'), 'output.png'))
-  
-  src.delete()
-  dst.delete()
+function onRuntimeInitialized (event, originalFilePath, selectedTechnique) {
+  switch (selectedTechnique) {
+    case 'Image Thresholding': {
+      thresholdImg(event, originalFilePath)
+      break
+    }
+    case 'Dilate': {
+      dilateImg(event, originalFilePath)
+      break
+    }
+  }
 }
