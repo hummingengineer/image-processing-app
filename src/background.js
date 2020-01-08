@@ -35,6 +35,12 @@ const menu = Menu.buildFromTemplate([
         click: () => {
           shell.openExternal('https://github.com/hummingengineer/image-processing-app/issues')
         }
+      },
+      {
+        label: '업데이트 확인',
+        click: () => {
+          checkForUpdate()
+        }
       }
     ]
   }
@@ -178,4 +184,39 @@ async function dilateImg (event, originalFilePath) {
   })
   src.delete()
   dst.delete()
+}
+
+function checkForUpdate () {
+  let body = '' // let body = []
+  const checkUpdateRequest = net.request('https://github.com/hummingengineer/image-processing-app/releases/latest')
+  checkUpdateRequest.on('response', res => {
+    res.on('data', chunk => {
+      body += chunk  // body.push(chunk)
+    })
+    res.on('end', () => {
+      // body = Buffer.concat(body).toString() // 여기 'body'에 응답 받은 전체 바디가 문자열로 담겨있다
+      let startIndex = body.indexOf(':', body.indexOf('Recent Commits to'))
+      let endIndex = body.indexOf('"', startIndex)
+      let latestVer = body.slice(startIndex + 1, endIndex)
+      if(latestVer !== app.getVersion() && latestVer !== 'master') {
+        dialog.showMessageBox({
+          type: 'none',
+          buttons: ['Cancel', 'Ok'],
+          title: '업데이트',
+          message: '새로운 버전이 있습니다',
+          detail: '다운로드 페이지로 이동하시겠습니까?'
+        }).then(result => {
+          if(result.response === 1) shell.openExternal('https://github.com/hummingengineer/image-processing-app/releases/latest')
+        })
+      }
+      else {
+        dialog.showMessageBox({
+          type: 'none',
+          title: '업데이트',
+          message: '현재 최신버전입니다'
+        })
+      }
+    })
+  })
+  checkUpdateRequest.end()
 }
