@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, net, dialog, shell } from 'electron'
 import {
   createProtocol,
   // installVueDevtools
@@ -13,6 +13,33 @@ let win
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: { secure: true, standard: true } }])
+
+const menu = Menu.buildFromTemplate([
+  {
+    label: '파일',
+    submenu: [
+      process.platform === 'darwin' ? { role: 'close' } : { label: '끝내기', role: 'quit' }
+    ]
+  },
+  {
+    label: '보기',
+    submenu: [
+      { label: '새로고침', role: 'forcereload' }
+    ]
+  },
+  {
+    label: '도움말',
+    submenu: [
+      {
+        label: '피드백',
+        click: () => {
+          shell.openExternal('https://github.com/hummingengineer/image-processing-app/issues')
+        }
+      }
+    ]
+  }
+])
+Menu.setApplicationMenu(menu)
 
 function createWindow () {
   // Create the browser window.
