@@ -38,7 +38,7 @@
 </template>
 
 <script>
-const { ipcRenderer } = require('electron')
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'home',
