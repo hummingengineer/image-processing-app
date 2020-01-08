@@ -1,10 +1,13 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain, net, dialog, shell } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, net, dialog, shell, Menu } from 'electron'
 import {
   createProtocol,
   // installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
+import cv from './opencv.js'
+import Jimp from 'jimp/dist'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -130,9 +133,6 @@ ipcMain.on('convert-image', (event, originalFilePath, selectedTechnique) => {
 let Module = {
   onRuntimeInitialized
 }
-
-let cv = require('./opencv.js')
-const Jimp = require('jimp/dist')
 
 // Dilate example
 function onRuntimeInitialized (event, originalFilePath, selectedTechnique) {
