@@ -57,12 +57,16 @@ export default {
 
   watch: {
     originalFile: function (val) {
-      if(!val || val.length === 0) { this.previewImg = null; this.originalFile = null; this.convertedImg = null; this.selectedTechnique = null; return; }
+      this.convertedImg = null
+      if(!val || val.length === 0) { this.previewImg = null; this.originalFile = null; this.selectedTechnique = null; return; }
       let reader = new FileReader()
       reader.addEventListener('load', () => {
         this.previewImg = reader.result
       }, false)
       reader.readAsDataURL(val)
+    },
+    selectedTechnique: function () {
+      this.convertedImg = null
     }
   },
 
