@@ -1,5 +1,8 @@
 # image-processing-app
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/hummingengineer/image-processing-app)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/hummingengineer/image-processing-app?color=blue)
+
 ## Project setup
 ```
 yarn install
